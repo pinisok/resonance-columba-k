@@ -146,7 +146,7 @@ async function updateData() {
     const goodsInfo = JSON.parse(station.data) as GoodsInfo;
     processed = processGoodsData(processed, goodsInfo, station.code);
   }
-  console.log("Uploading data to db...");
+  console.log("Uploading " + Object.keys(processed).length + " data to db...");
   const docRef = columbaCol.doc("productsV2");
   const result = await docRef.set(processed);
   console.log("Data update complete, " + result.writeTime);
