@@ -153,10 +153,10 @@ export async function GET() {
   if (Date.now() - updateTime > updateInterval) {
     updateTime = Date.now();
     console.log("Start updating data");
-    updateData();
+    await updateData();
   }
 
-  if (cache && Date.now() - cacheTime < revalidate * 1000) {
+  if (cache && ((Date.now() - cacheTime < revalidate * 1000) || (Date.now() - updateTime < 10 * 1000))) {
     console.log("Returning cached data cached at " + cacheTime);
     return buildResponse(cache);
   }
