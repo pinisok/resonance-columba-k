@@ -137,16 +137,19 @@ function processGoodsData(processed: FirestoreProducts, goodsInfo: GoodsInfo, st
 }
 
 async function updateData() {
+  console.log("Fetching data from https://res-price.mephistopheles.moe/api/station ...");
   const res = await fetch("https://res-price.mephistopheles.moe/api/station");
   var processed: FirestoreProducts = {};
+  console.log("Processing data for db...");
   const data = await res.json() as StationData[];
   for (const station of data) {
     const goodsInfo = JSON.parse(station.data) as GoodsInfo;
     processed = processGoodsData(processed, goodsInfo, station.code);
   }
+  console.log("Uploading data to db...");
   const docRef = columbaCol.doc("productsV2");
-  await docRef.set(processed);
-  console.log("Updated data");
+  const result = await docRef.set(processed);
+  console.log("Data update complete, " + result.writeTime);
 }
 
 export async function GET() {
@@ -154,6 +157,8 @@ export async function GET() {
     updateTime = Date.now();
     console.log("Start updating data");
     await updateData();
+    console.log("Complete updating data");
+
   }
 
   if (cache && ((Date.now() - cacheTime < revalidate * 1000) || (Date.now() - updateTime < 10 * 1000))) {
