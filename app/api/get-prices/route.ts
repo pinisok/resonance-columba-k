@@ -140,8 +140,8 @@ async function updateData() {
   console.log("Fetching data from https://res-price.mephistopheles.moe/api/station ...");
   const res = await fetch("https://res-price.mephistopheles.moe/api/station");
   var processed: FirestoreProducts = {};
-  console.log("Processing data for db...");
   const data = await res.json() as StationData[];
+  console.log("Processing "+ data.length +" data for db...");
   for (const station of data) {
     const goodsInfo = JSON.parse(station.data) as GoodsInfo;
     processed = processGoodsData(processed, goodsInfo, station.code);
@@ -161,7 +161,7 @@ export async function GET() {
 
   }
 
-  if (cache && ((Date.now() - cacheTime < revalidate * 1000) || (Date.now() - updateTime < 10 * 1000))) {
+  if (cache && Date.now() - cacheTime < revalidate * 1000) {
     console.log("Returning cached data cached at " + cacheTime);
     return buildResponse(cache);
   }
