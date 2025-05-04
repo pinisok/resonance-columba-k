@@ -6,14 +6,17 @@ import { PlayerConfig } from "@/interfaces/player-config";
 
 export const isValidPlayerConfig = (config: any) => {
   if (!config) {
+    console.warn("isValidPlayerConfig: ", "Null config")
     return false;
   }
 
   if (typeof config !== "object") {
+    console.warn("isValidPlayerConfig: ", "Config is not object")
     return false;
   }
 
   if (Object.keys(config).length === 0) {
+    console.warn("isValidPlayerConfig: ", "Config has no key")
     return false;
   }
 
@@ -34,6 +37,7 @@ export const isValidPlayerConfig = (config: any) => {
         ].includes(key)
     ).length > 0
   ) {
+    console.warn("isValidPlayerConfig: ", "Config has no valid key")
     return false;
   }
 
@@ -41,6 +45,7 @@ export const isValidPlayerConfig = (config: any) => {
     config.maxLot !== undefined &&
     (typeof config.maxLot === "string" || isNaN(config.maxLot) || config.maxLot < 0 || config.maxLot > 5000)
   ) {
+    console.warn("isValidPlayerConfig: ", "Config has invalid maxLot")
     return false;
   }
 
@@ -51,12 +56,14 @@ export const isValidPlayerConfig = (config: any) => {
       config.tradeLevel < 1 ||
       config.tradeLevel > 99)
   ) {
+    console.warn("isValidPlayerConfig: ", "Config has invalid tradeLevel")
     return false;
   }
 
   if (config.bargain) {
     const bargain = config.bargain;
     if (!isBargainConfig(bargain)) {
+      console.warn("isValidPlayerConfig: ", "Config has invalid bargain")
       return false;
     }
   }
@@ -64,6 +71,7 @@ export const isValidPlayerConfig = (config: any) => {
   if (config.returnBargain) {
     const returnBargain = config.returnBargain;
     if (!isBargainConfig(returnBargain)) {
+      console.warn("isValidPlayerConfig: ", "Config has invalid return bargain")
       return false;
     }
   }
@@ -71,10 +79,12 @@ export const isValidPlayerConfig = (config: any) => {
   if (config.prestige) {
     const prestige = config.prestige;
     if (Object.keys(prestige).filter((key) => !CITY_WITH_PRESTIGE.includes(key)).length > 0) {
+      console.warn("isValidPlayerConfig: ", "Config has invalid prestige key")
       return false;
     }
 
     if (Object.keys(prestige).find((key) => isNaN(prestige[key]) || prestige[key] < 0 || prestige[key] > 20)) {
+      console.warn("isValidPlayerConfig: ", "Config has invalid prestige value")
       return false;
     }
   }
@@ -83,16 +93,19 @@ export const isValidPlayerConfig = (config: any) => {
     const roles = config.roles;
     const allRoleNames = Object.keys(ROLE_RESONANCE_SKILLS);
     if (Object.keys(roles).filter((key) => !allRoleNames.includes(key)).length > 0) {
+      console.warn("isValidPlayerConfig: ", "Config has invalid role name")
       return false;
     }
 
     for (const roleName of Object.keys(roles)) {
       const role = roles[roleName];
       if (Object.keys(role).filter((key) => !["resonance"].includes(key)).length > 0) {
+        console.warn("isValidPlayerConfig: ", "Config has invalid resonance")
         return false;
       }
 
       if (isNaN(role.resonance) || role.resonance < 0 || role.resonance > 5) {
+        console.warn("isValidPlayerConfig: ", "Config has invalid resonance value")
         return false;
       }
     }
@@ -114,6 +127,7 @@ export const isValidPlayerConfig = (config: any) => {
           ].includes(key)
       ).length > 0
     ) {
+      console.warn("isValidPlayerConfig: ", "Config has invalid onegraph")
       return false;
     }
 
@@ -124,40 +138,49 @@ export const isValidPlayerConfig = (config: any) => {
         onegraph.maxRestock < 0 ||
         onegraph.maxRestock > 100)
     ) {
+      console.warn("isValidPlayerConfig: ", "Config has invalid maxRestock")
       return false;
     }
 
     if (onegraph.goAndReturn !== undefined && typeof onegraph.goAndReturn !== "boolean") {
+        console.warn("isValidPlayerConfig: ", "Config has invalid goAndReturn")
       return false;
     }
 
     if (onegraph.showFatigue !== undefined && typeof onegraph.showFatigue !== "boolean") {
+        console.warn("isValidPlayerConfig: ", "Config has invalid fatigue")
       return false;
     }
 
     if (onegraph.showProfitPerRestock !== undefined && typeof onegraph.showProfitPerRestock !== "boolean") {
+        console.warn("isValidPlayerConfig: ", "Config has invalid showProfitPerRestock")
       return false;
     }
 
     if (onegraph.showGeneralProfitIndex !== undefined && typeof onegraph.showGeneralProfitIndex !== "boolean") {
+        console.warn("isValidPlayerConfig: ", "Config has invalid showGeneralProfitIndex")
       return false;
     }
 
     if (onegraph.enableMultiConfig !== undefined && typeof onegraph.enableMultiConfig !== "boolean") {
+        console.warn("isValidPlayerConfig: ", "Config has invalid enableMultiConfig")
       return false;
     }
 
     if (onegraph.displayMode !== undefined && onegraph.displayMode !== "table" && onegraph.displayMode !== "list") {
+        console.warn("isValidPlayerConfig: ", "Config has invalid displayMode")
       return false;
     }
   }
 
   if (config.nanoid) {
     if (typeof config.nanoid !== "string") {
+        console.warn("isValidPlayerConfig: ", "Config has invalid nanoid")
       return false;
     }
 
     if (config.nanoid.length !== 21) {
+        console.warn("isValidPlayerConfig: ", "Config has invalid nanoid length")
       return false;
     }
   }
@@ -167,17 +190,20 @@ export const isValidPlayerConfig = (config: any) => {
       Object.keys(config.productUnlockStatus).filter((key) => typeof config.productUnlockStatus[key] !== "boolean")
         .length > 0
     ) {
+        console.warn("isValidPlayerConfig: ", "Config has invalid productUnlockStatus")
       return false;
     }
 
     const pdtNames = PRODUCTS.map((pdt) => pdt.name);
     if (Object.keys(config.productUnlockStatus).filter((key) => !pdtNames.includes(key)).length > 0) {
+        console.warn("isValidPlayerConfig: ", "Config has invalid pdtNames")
       return false;
     }
   }
 
   if (config.events) {
     if (!isEventConfig(config.events)) {
+        console.warn("isValidPlayerConfig: ", "Config has invalid event config")
       return false;
     }
   }

@@ -1,6 +1,7 @@
 import { ROLE_RESONANCE_SKILLS } from "@/data/RoleResonanceSkills";
 import { PlayerConfig } from "@/interfaces/player-config";
 import { INITIAL_PLAYER_CONFIG, mergePlayerConfigs } from "@/utils/player-config-utils";
+import { CITY_WITH_PRESTIGE } from "resonance-data-columba-k/dist/columbabuild";
 import { useLocalStorage } from "usehooks-ts";
 
 export default function usePlayerConfig() {
@@ -10,7 +11,7 @@ export default function usePlayerConfig() {
       try {
         const config = value ? JSON.parse(value) : INITIAL_PLAYER_CONFIG;
         const merged = mergePlayerConfigs(config);
-
+        console.log("Validate player config", merged);
         // validate / fix selected resonance levels
         const roles = merged.roles;
         Object.keys(roles).forEach((role) => {
@@ -31,6 +32,12 @@ export default function usePlayerConfig() {
             }
           }
         });
+        const prestiges = merged.prestige;
+        Object.keys(prestiges)
+          .filter((city) => !CITY_WITH_PRESTIGE.includes(city))
+          .forEach((city) => {
+            delete prestiges[city]
+          })
 
         return merged;
       } catch (e) {
