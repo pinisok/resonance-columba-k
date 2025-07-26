@@ -63,6 +63,8 @@ import 메이 from "/public/roles/head/메이.png";
 import 시즈루 from "/public/roles/head/시즈루.png";
 import 마키라·점성술사 from "/public/roles/head/마키라·점성술사.png";
 import 렌 from "/public/roles/head/렌.png";
+import 이카라 from "/public/roles/head/이카라.png";
+import 엘리아데 from "/public/roles/head/엘리아데.png";
 // import end
 
 export const roleImages: { [roleName: string]: StaticImageData } = {
@@ -126,5 +128,7 @@ export const roleImages: { [roleName: string]: StaticImageData } = {
   시즈루,
   마키라·점성술사,
   렌,
+  이카라,
+  엘리아데,
   // export role images end
 };
