@@ -67,6 +67,7 @@ import 이카라 from "/public/roles/head/이카라.png";
 import 엘리아데 from "/public/roles/head/엘리아데.png";
 import 마사키 from "/public/roles/head/마사키.png";
 import 클로이 from "/public/roles/head/클로이.png";
+import 체시아 from "/public/roles/head/체시아.png";
 // import end
 
 export const roleImages: { [roleName: string]: StaticImageData } = {
@@ -134,5 +135,6 @@ export const roleImages: { [roleName: string]: StaticImageData } = {
   엘리아데,
   마사키,
   클로이,
+  체시아,
   // export role images end
 };
